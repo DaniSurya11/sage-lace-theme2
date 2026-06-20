@@ -124,7 +124,7 @@ button {
 }
 
 .devider-bottom {
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .couple {
@@ -162,12 +162,12 @@ button {
 .guest-card {
   display: flex;
   width: 100%;
-  margin-top: 38px;
+  margin-top: 48px;
   padding: 0;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  gap: 16px;
+  gap: 28px;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -180,24 +180,14 @@ button {
   gap: 10px;
 }
 
-.guest-block p {
-  display: flex;
-  margin: 0;
-  color: var(--lace-ivory);
-  font-family: "Montserrat", Arial, sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 22.5px;
-  flex-direction: column;
-}
-
 .guest-block strong {
   display: block;
   color: var(--lace-ivory);
   font-family: "Montserrat", Arial, sans-serif;
-  font-size: 21px;
-  font-weight: 400;
-  line-height: 31.5px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .open-button {

@@ -48,10 +48,6 @@ export default function Invitation() {
 
           <div className="guest-card">
             <div className="guest-block">
-              <p>
-                <span>Kepada Yth.</span>
-                <span>Bapak/ Ibu/ Saudara/ i</span>
-              </p>
               <strong id="guestName">{guestName}</strong>
             </div>
 
