@@ -1,0 +1,8 @@
+.next/
+node_modules/
+preview/
+/bg-lacesage.png
+
+*.log
+.env*
+!.env.example
