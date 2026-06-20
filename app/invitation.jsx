@@ -32,15 +32,21 @@ export default function Invitation() {
 
       <section className="cover-content" aria-labelledby="couple-names">
         <div className="invitation-card">
-          <p className="eyebrow reveal reveal-1">The Wedding of</p>
+          <p className="eyebrow">The Wedding of</p>
+          <img
+            className="devider devider-top"
+            src="/assets/devider-top.png"
+            alt=""
+            aria-hidden="true"
+          />
 
-          <h1 className="couple reveal reveal-2" id="couple-names">
-            <span>Raka</span>
+          <h1 className="couple" id="couple-names">
+            <span>Aldo Septian</span>
             <span className="ampersand">&amp;</span>
-            <span>Sara</span>
+            <span>Tiara Putri</span>
           </h1>
 
-          <div className="guest-card reveal reveal-4">
+          <div className="guest-card">
             <div className="guest-block">
               <p>
                 <span>Kepada Yth.</span>
@@ -50,7 +56,7 @@ export default function Invitation() {
             </div>
 
             <button
-              className="open-button reveal reveal-5"
+              className="open-button"
               id="openInvitation"
               type="button"
               disabled={isOpen}
@@ -59,6 +65,13 @@ export default function Invitation() {
               <span>OPEN INVITATION</span>
             </button>
           </div>
+
+          <img
+            className="devider devider-bottom"
+            src="/assets/devider-bottom.png"
+            alt=""
+            aria-hidden="true"
+          />
         </div>
       </section>
 
