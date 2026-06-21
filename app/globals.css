@@ -35,9 +35,9 @@ button {
 
 .invitation {
   --bottom-lace-height: clamp(116px, 36.35vw, 182px);
-  --bottom-divider-clearance: clamp(48px, 7dvh, 70px);
+  --bottom-divider-clearance: 50px;
   --divider-height: clamp(34px, 10.6vw, 46px);
-  --content-divider-gap: clamp(16px, 3dvh, 30px);
+  --content-divider-gap: clamp(12px, 2.4dvh, 22px);
 
   isolation: isolate;
   position: relative;
@@ -145,7 +145,6 @@ button {
   bottom: calc(
     var(--bottom-lace-height)
     + var(--bottom-divider-clearance)
-    + env(safe-area-inset-bottom)
   );
   left: 50%;
   margin: 0;
@@ -282,8 +281,8 @@ button {
 
 @media (max-height: 700px) {
   .invitation {
-    --bottom-divider-clearance: clamp(56px, 9dvh, 72px);
-    --content-divider-gap: clamp(8px, 2dvh, 18px);
+    --bottom-divider-clearance: 48px;
+    --content-divider-gap: clamp(6px, 1.6dvh, 14px);
   }
 
   .cover-content {
