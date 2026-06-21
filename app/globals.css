@@ -34,11 +34,18 @@ button {
 }
 
 .invitation {
+  --bottom-lace-height: clamp(116px, 36.35vw, 182px);
+  --bottom-divider-clearance: clamp(48px, 7dvh, 70px);
+  --divider-height: clamp(34px, 10.6vw, 46px);
+  --content-divider-gap: clamp(16px, 3dvh, 30px);
+
   isolation: isolate;
   position: relative;
   width: min(100%, 500px);
-  min-height: 100vh;
+  min-height: 100svh;
   min-height: 100dvh;
+  height: 100svh;
+  height: 100dvh;
   margin: 0 auto;
   overflow: hidden;
   background: var(--sage-soft);
@@ -79,12 +86,20 @@ button {
   z-index: 2;
   inset: 0;
   display: flex;
-  min-height: 100vh;
+  min-height: 100svh;
   min-height: 100dvh;
   padding:
-    max(54px, env(safe-area-inset-top))
+    max(clamp(34px, 7dvh, 54px), env(safe-area-inset-top))
     clamp(28px, 9vw, 50px)
-    max(42px, env(safe-area-inset-bottom));
+    max(
+      calc(
+        var(--bottom-lace-height)
+        + var(--bottom-divider-clearance)
+        + var(--divider-height)
+        + var(--content-divider-gap)
+      ),
+      env(safe-area-inset-bottom)
+    );
   align-items: center;
   flex-direction: column;
   justify-content: center;
@@ -92,9 +107,10 @@ button {
 }
 
 .invitation-card {
-  position: relative;
+  position: static;
   display: flex;
   width: 100%;
+  min-height: 100%;
   padding: 0;
   align-items: center;
   flex-direction: column;
@@ -102,7 +118,7 @@ button {
 }
 
 .eyebrow {
-  margin: 0 0 10px;
+  margin: 0 0 clamp(6px, 1.5dvh, 10px);
   color: var(--lace-ivory);
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: clamp(10px, 2.75vw, 13px);
@@ -121,11 +137,19 @@ button {
 }
 
 .devider-top {
-  margin: 0 0 80px;
+  margin: 0 0 clamp(42px, 8dvh, 80px);
 }
 
 .devider-bottom {
-  margin-top: 110px;
+  position: absolute;
+  bottom: calc(
+    var(--bottom-lace-height)
+    + var(--bottom-divider-clearance)
+    + env(safe-area-inset-bottom)
+  );
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
 }
 
 .couple {
@@ -163,12 +187,12 @@ button {
 .guest-card {
   display: flex;
   width: 100%;
-  margin-top: 48px;
+  margin-top: clamp(24px, 6dvh, 48px);
   padding: 0;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  gap: 20px;
+  gap: clamp(12px, 2.8dvh, 20px);
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -178,7 +202,7 @@ button {
   display: flex;
   margin: 0;
   flex-direction: column;
-  gap: 10px;
+  gap: clamp(6px, 1.5dvh, 10px);
 }
 
 .guest-block strong {
@@ -231,7 +255,7 @@ button {
   position: relative;
   z-index: 2;
   display: none;
-  min-height: 100vh;
+  min-height: 100svh;
   min-height: 100dvh;
   padding: 48px 28px;
   place-items: center;
@@ -257,16 +281,44 @@ button {
 }
 
 @media (max-height: 700px) {
+  .invitation {
+    --bottom-divider-clearance: clamp(56px, 9dvh, 72px);
+    --content-divider-gap: clamp(8px, 2dvh, 18px);
+  }
+
   .cover-content {
-    padding-top: 30px;
-    padding-bottom: 26px;
+    padding-top: max(28px, env(safe-area-inset-top));
   }
 
   .couple {
     font-size: clamp(46px, 14.2vw, 67px);
   }
 
+  .devider-top {
+    margin-bottom: clamp(22px, 5dvh, 36px);
+  }
+
   .guest-card {
-    margin-top: 28px;
+    margin-top: clamp(14px, 4dvh, 26px);
+    gap: clamp(8px, 2dvh, 14px);
+  }
+}
+
+@media (max-height: 620px) {
+  .cover-content {
+    padding-top: max(24px, env(safe-area-inset-top));
+  }
+
+  .eyebrow {
+    margin-bottom: 6px;
+  }
+
+  .devider-top {
+    margin-bottom: clamp(14px, 3.5dvh, 22px);
+  }
+
+  .guest-card {
+    margin-top: clamp(10px, 3dvh, 16px);
+    gap: clamp(7px, 1.8dvh, 10px);
   }
 }
