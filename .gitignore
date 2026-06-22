@@ -1,6 +1,7 @@
 .next/
 node_modules/
 preview/
+mockups/
 /bg-lacesage.png
 
 *.log

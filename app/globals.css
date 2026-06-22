@@ -33,9 +33,23 @@ button {
   font: inherit;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .invitation {
+  --top-lace-visible-height: clamp(101px, 31.65vw, 158px);
+  --top-content-clearance: clamp(12px, 2dvh, 18px);
   --bottom-lace-height: clamp(116px, 36.35vw, 182px);
-  --bottom-divider-clearance: 50px;
+  --bottom-lace-transparent-top: clamp(15px, 4.57vw, 23px);
+  --bottom-divider-transparent-bottom: clamp(10px, 2.89vw, 14px);
+  --bottom-divider-visual-clearance: 50px;
+  --bottom-divider-offset: calc(
+    var(--bottom-lace-height)
+    + var(--bottom-divider-visual-clearance)
+    - var(--bottom-lace-transparent-top)
+    - var(--bottom-divider-transparent-bottom)
+  );
   --divider-height: clamp(34px, 10.6vw, 46px);
   --content-divider-gap: clamp(12px, 2.4dvh, 22px);
 
@@ -81,6 +95,220 @@ button {
   bottom: 0;
 }
 
+.boma-lace {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  display: none;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.boma-lace-top {
+  top: -4px;
+  transform: scale(-1, -1);
+}
+
+.boma-lace-bottom {
+  bottom: -1px;
+}
+
+.envelope-gate {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: flex;
+  min-height: 100svh;
+  min-height: 100dvh;
+  padding:
+    max(calc(var(--top-lace-visible-height) + 28px), env(safe-area-inset-top))
+    clamp(22px, 7vw, 40px)
+    max(28px, env(safe-area-inset-bottom));
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: clamp(9px, 1.7dvh, 15px);
+  text-align: center;
+  transition:
+    opacity 700ms ease,
+    visibility 700ms ease;
+}
+
+.invitation.is-open .envelope-gate {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.envelope-kicker,
+.envelope-hint {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  color: rgba(248, 244, 238, 0.84);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(11px, 2.9vw, 13px);
+  font-weight: 500;
+  letter-spacing: .28em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  text-shadow: 0 1px 8px rgba(51, 59, 45, 0.2);
+}
+
+.envelope-hint {
+  color: rgba(248, 244, 238, 0.72);
+  font-size: clamp(10px, 2.7vw, 12px);
+  letter-spacing: .18em;
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+
+.envelope-stage {
+  position: relative;
+  width: min(86vw, 335px);
+  aspect-ratio: 2 / 3;
+  margin: clamp(-22px, -2.6dvh, -10px) auto clamp(-118px, -13dvh, -86px);
+}
+
+.closed-envelope-button,
+.guest-reveal-card {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.closed-envelope-button {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 520ms ease,
+    transform 700ms cubic-bezier(.2, .72, .22, 1);
+}
+
+.envelope-gate.is-envelope-open .closed-envelope-button {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(.985);
+}
+
+.envelope-layer,
+.guest-card-shadow-img,
+.guest-card-img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.open-envelope-stack {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 620ms ease 110ms,
+    transform 760ms cubic-bezier(.2, .72, .22, 1) 110ms;
+}
+
+.envelope-gate.is-envelope-open .open-envelope-stack {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.envelope-back {
+  z-index: 1;
+}
+
+.envelope-front {
+  z-index: 4;
+}
+
+.guest-reveal-card {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(84px) scale(.94);
+  transition:
+    opacity 760ms ease 340ms,
+    transform 920ms cubic-bezier(.18, .78, .2, 1) 340ms;
+}
+
+.envelope-gate.is-envelope-open .guest-reveal-card {
+  opacity: 1;
+  transform: translateY(-28px) scale(.92);
+}
+
+.guest-reveal-card:focus-visible {
+  outline: none;
+}
+
+.guest-reveal-card:focus-visible .guest-card-img {
+  filter: drop-shadow(0 0 0.45rem rgba(248, 244, 238, 0.45));
+}
+
+.guest-card-shadow-img {
+  z-index: 1;
+}
+
+.guest-card-img {
+  z-index: 2;
+}
+
+.guest-card-copy {
+  position: absolute;
+  z-index: 3;
+  top: 37%;
+  left: 50%;
+  display: flex;
+  width: min(60%, 210px);
+  color: var(--ink);
+  align-items: center;
+  flex-direction: column;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.guest-card-copy span,
+.guest-card-copy em {
+  color: rgba(79, 93, 75, 0.78);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(10px, 2.8vw, 12px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.guest-card-copy strong {
+  display: block;
+  max-width: 100%;
+  margin: clamp(10px, 2.4dvh, 16px) 0 clamp(14px, 2.7dvh, 20px);
+  color: var(--sage-dark);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(20px, 5.8vw, 27px);
+  font-weight: 600;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+.guest-card-copy em {
+  padding-top: clamp(8px, 1.8dvh, 12px);
+  border-top: 1px solid rgba(82, 97, 73, 0.25);
+  letter-spacing: .06em;
+}
+
 .cover-content {
   position: absolute;
   z-index: 2;
@@ -89,12 +317,12 @@ button {
   min-height: 100svh;
   min-height: 100dvh;
   padding:
-    max(clamp(34px, 7dvh, 54px), env(safe-area-inset-top))
+    0
     clamp(28px, 9vw, 50px)
     max(
       calc(
         var(--bottom-lace-height)
-        + var(--bottom-divider-clearance)
+        + var(--bottom-divider-visual-clearance)
         + var(--divider-height)
         + var(--content-divider-gap)
       ),
@@ -104,6 +332,16 @@ button {
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 900ms ease,
+    transform 1000ms cubic-bezier(.2, .65, .2, 1);
+}
+
+.invitation.is-open .cover-content {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .invitation-card {
@@ -111,10 +349,10 @@ button {
   display: flex;
   width: 100%;
   min-height: 100%;
-  padding: 0;
+  padding-top: calc(var(--top-lace-visible-height) + var(--top-content-clearance));
   align-items: center;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .eyebrow {
@@ -125,7 +363,7 @@ button {
   font-weight: 500;
   letter-spacing: .34em;
   text-transform: uppercase;
-  transform: translateY(-10px);
+  animation: signature-reveal 900ms ease both;
 }
 
 .devider {
@@ -137,15 +375,13 @@ button {
 }
 
 .devider-top {
-  margin: 0 0 clamp(42px, 8dvh, 80px);
+  margin: 0 0 clamp(26px, 5dvh, 50px);
+  animation: signature-reveal 900ms ease 120ms both;
 }
 
 .devider-bottom {
   position: absolute;
-  bottom: calc(
-    var(--bottom-lace-height)
-    + var(--bottom-divider-clearance)
-  );
+  bottom: var(--bottom-divider-offset);
   left: 50%;
   margin: 0;
   transform: translateX(-50%);
@@ -161,6 +397,7 @@ button {
   line-height: .8;
   flex-direction: column;
   letter-spacing: 0;
+  animation: signature-reveal 1100ms cubic-bezier(.2, .65, .2, 1) 260ms both;
 }
 
 .couple > span:first-child {
@@ -186,7 +423,7 @@ button {
 .guest-card {
   display: flex;
   width: 100%;
-  margin-top: clamp(24px, 6dvh, 48px);
+  margin-top: clamp(18px, 4dvh, 34px);
   padding: 0;
   align-items: center;
   flex-direction: column;
@@ -195,44 +432,56 @@ button {
   border: 0;
   border-radius: 0;
   background: transparent;
+  animation: guest-signature-reveal 900ms ease 980ms both;
 }
 
 .guest-block {
   display: flex;
   margin: 0;
   flex-direction: column;
-  gap: clamp(6px, 1.5dvh, 10px);
+  gap: clamp(3px, .8dvh, 7px);
+}
+
+.guest-block span {
+  display: block;
+  color: rgba(248, 244, 238, 0.74);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(10px, 2.55vw, 12px);
+  font-weight: 500;
+  letter-spacing: .18em;
+  line-height: 1.35;
+  text-transform: uppercase;
 }
 
 .guest-block strong {
   display: block;
   color: var(--lace-ivory);
   font-family: "Montserrat", Arial, sans-serif;
-  font-size: 20px;
+  font-size: clamp(17px, 4.4vw, 20px);
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.28;
   text-align: center;
 }
 
 .open-button {
   position: relative;
   width: auto;
-  min-width: 191px;
+  min-width: 178px;
   min-height: 30px;
   margin: 0 auto;
-  padding: 7px 30px;
+  padding: 7px 28px;
   white-space: nowrap;
   overflow: hidden;
   border: 1px solid rgba(166, 138, 85, 0.3);
   border-radius: 30px;
-  background: var(--lace-ivory);
+  background: rgba(248, 244, 238, 0.93);
   color: var(--cta-text);
   cursor: pointer;
   font-family: "DM Sans", sans-serif;
-  font-size: 16px;
+  font-size: clamp(13px, 3.45vw, 15px);
   font-weight: 500;
   line-height: 16px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.09em;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8);
 }
 
@@ -269,24 +518,35 @@ button {
   font-style: italic;
 }
 
-.invitation.is-open .cover-content {
-  display: none;
-  pointer-events: none;
-  visibility: hidden;
+@keyframes signature-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.invitation.is-open .opened-placeholder {
-  display: grid;
+@keyframes guest-signature-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-height: 700px) {
   .invitation {
-    --bottom-divider-clearance: 48px;
+    --top-content-clearance: clamp(8px, 1.4dvh, 12px);
+    --bottom-divider-visual-clearance: 50px;
     --content-divider-gap: clamp(6px, 1.6dvh, 14px);
-  }
-
-  .cover-content {
-    padding-top: max(28px, env(safe-area-inset-top));
   }
 
   .couple {
@@ -294,18 +554,76 @@ button {
   }
 
   .devider-top {
-    margin-bottom: clamp(22px, 5dvh, 36px);
+    margin-bottom: clamp(18px, 4dvh, 28px);
   }
 
   .guest-card {
-    margin-top: clamp(14px, 4dvh, 26px);
+    margin-top: clamp(12px, 3dvh, 20px);
     gap: clamp(8px, 2dvh, 14px);
+  }
+
+  .envelope-stage {
+    width: min(82vw, 315px);
+  }
+
+  .envelope-gate.is-envelope-open .guest-reveal-card {
+    transform: translateY(-18px) scale(.88);
+  }
+}
+
+@media (max-width: 600px) {
+  .lace {
+    display: none;
+  }
+
+  .boma-lace {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .invitation {
+    --boma-lace-height: clamp(114px, 35.8vw, 140px);
+    --top-lace-visible-height: var(--boma-lace-height);
+    --top-content-clearance: clamp(16px, 2.3dvh, 22px);
+    --bottom-lace-height: var(--boma-lace-height);
+    --bottom-lace-transparent-top: clamp(14px, 4vw, 18px);
+    --bottom-divider-visual-clearance: clamp(58px, 7.8dvh, 68px);
+    --content-divider-gap: clamp(16px, 2.8dvh, 24px);
+  }
+
+  .devider-top {
+    margin-bottom: clamp(20px, 4.2dvh, 36px);
+  }
+
+  .guest-card {
+    margin-top: clamp(20px, 4.4dvh, 36px);
+    gap: clamp(13px, 2.9dvh, 21px);
+  }
+
+  .envelope-stage {
+    width: min(86vw, 335px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eyebrow,
+  .devider-top,
+  .couple,
+  .guest-card,
+  .envelope-gate,
+  .closed-envelope-button,
+  .open-envelope-stack,
+  .guest-reveal-card {
+    animation: none;
+    transition: none;
   }
 }
 
 @media (max-height: 620px) {
-  .cover-content {
-    padding-top: max(24px, env(safe-area-inset-top));
+  .invitation {
+    --top-content-clearance: 4px;
   }
 
   .eyebrow {
@@ -313,11 +631,29 @@ button {
   }
 
   .devider-top {
-    margin-bottom: clamp(14px, 3.5dvh, 22px);
+    margin-bottom: clamp(10px, 2.5dvh, 16px);
+  }
+
+  .couple {
+    font-size: clamp(42px, 12.8vw, 58px);
   }
 
   .guest-card {
-    margin-top: clamp(10px, 3dvh, 16px);
+    margin-top: clamp(8px, 2dvh, 12px);
     gap: clamp(7px, 1.8dvh, 10px);
+  }
+
+  .envelope-gate {
+    gap: 7px;
+    padding-top: max(calc(var(--top-lace-visible-height) + 16px), env(safe-area-inset-top));
+  }
+
+  .envelope-stage {
+    width: min(76vw, 300px);
+    margin-bottom: clamp(-110px, -16dvh, -84px);
+  }
+
+  .envelope-gate.is-envelope-open .guest-reveal-card {
+    transform: translateY(-12px) scale(.84);
   }
 }
